@@ -1,0 +1,5 @@
+---
+# tasks file for centos2rhel7
+- name: Yum requires python-urlgrabber3
+  include: migrate.yml
+  when: ansible_distribution == 'CentOS'

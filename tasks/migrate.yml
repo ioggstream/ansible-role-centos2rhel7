@@ -1,0 +1,32 @@
+---
+# tasks file for centos2rhel7
+- name: Yum requires python-urlgrabber3
+  yum: name={{item}} state=latest
+  with_items:
+  - subscription-manager
+  - python-urlgrabber
+
+- name: Copy rhel7 files.
+  copy: dest=/root/ src={{item}} 
+  with_fileglob:
+  - files/yum-*.rpm
+  - files/redhat-release-*.rpm
+
+- name: Remove centos' yum
+  shell: "rpm -e --nodeps centos-release"
+
+- name: Add redhat's release
+  shell: "rpm -i /root/redhat-release-*.rpm"
+
+- name: Remove centos' yum
+  shell: "rpm -e --nodeps yum"
+
+- name: Add redhat's yum
+  shell: "rpm -i --nodeps /root/yum-*rpm"
+
+- name: Refresh repos
+  yum: name="{{item}}" update_cache=yes
+  with_items:
+  - redhat-release
+  - yum
+

@@ -1,0 +1,12 @@
+---
+driver:
+  name: docker
+docker:
+  containers:
+    - name: centos2rhel7
+      image: centos
+      image_version: 7
+      ansible_groups:
+        - group1
+verifier:
+  name: testinfra
